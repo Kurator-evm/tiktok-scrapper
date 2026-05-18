@@ -1,16 +1,13 @@
 ---
-name: tiktok-scraper
-description: Scrapes TikTok to find user profiles and their latest video URLs.
+name: tiktok-scrapper
+description: Extract video URLs and profile info from TikTok.
+trigger_phrases: ["goto tiktok", "find @", "get latest video"]
 ---
 
 # TikTok Scraper Skill
 
 ## Instructions
-1. When the user asks to "find @user" or "get tiktok video", activate this skill.
-2. Pass the `username` to the `scripts/run.js` file.
-3. Use the `scripts/index.html` to render a hidden WebView to bypass basic JS blocks.
-4. Return the video URL to the user in a clean markdown link.
-
-## Examples
-- "goto tiktok.com and find @khaby.lame and get his latest video url"
-- 
+When the user asks for a TikTok profile or video:
+1. Identify the username (ensure it includes the @).
+2. Use the script to navigate to the user profile page.
+3. Extract the href attribute of the first video element.
