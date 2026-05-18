@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <script>
+    async function getLatestVideo(username) {
+      const targetUrl = `https://www.tiktok.com/@${username.replace('@', '')}`;
+      
+      // The Gallery provides a 'bridge' to fetch or manipulate the page
+      const response = await fetch(targetUrl);
+      const html = await response.text();
+      
+      // Simple regex to find the first video link in the HTML source
+      const match = html.match(/"itemList":\[.*?"id":"(\d+)"/);
+      if (match) {
+        return `https://www.tiktok.com/@${username}/video/${match[1]}`;
+      }
+      return "Could not find video. Profile might be private.";
+    }
+
+    // Listen for the Agent's call
+    window.addEventListener('message', async (event) => {
+      const { username } = event.data;
+      const result = await getLatestVideo(username);
+      window.parent.postMessage({ type: 'SKILL_RESULT', data: result }, '*');
+    });
+  </script>
+</body>
+</html>
+
